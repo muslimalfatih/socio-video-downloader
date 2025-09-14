@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,9 +9,11 @@ import { AlertCircle, RefreshCw } from "lucide-react";
 import { useVideoInfo } from "@/hooks/useVideoInfo";
 import { URLInput } from "@/components/URLInput";
 import { VideoInfoCard } from "@/components/VideoInfoCard";
+import { UsageInfo } from "@/components/UsageInfo";
 
 export default function HomePage() {
   const { data: videoInfo, loading, error, fetchInfo, reset } = useVideoInfo();
+  const usageRef = useRef<{ refreshUsage: () => void } | null>(null);
 
   const handleURLSubmit = async (url: string) => {
     try {
@@ -24,6 +27,13 @@ export default function HomePage() {
     reset();
   };
 
+  const handleDownloadComplete = useCallback(() => {
+    // Refresh usage info after successful download
+    if (usageRef.current) {
+      usageRef.current.refreshUsage();
+    }
+  }, []);
+
   return (
     <div className="container mx-auto max-w-2xl p-4 space-y-6">
       <Card>
@@ -32,7 +42,7 @@ export default function HomePage() {
             Socio Video Downloader
           </h1>
           <p className="text-muted-foreground text-center">
-            Analyze videos from social media platforms instantly
+            Download videos from Instagram, TikTok, YouTube, Twitter instantly
           </p>
         </CardHeader>
         <CardContent>
@@ -43,6 +53,8 @@ export default function HomePage() {
           />
         </CardContent>
       </Card>
+
+      <UsageInfo />
 
       {error && (
         <Alert variant="destructive">
@@ -65,7 +77,10 @@ export default function HomePage() {
 
       {videoInfo && (
         <div className="space-y-4">
-          <VideoInfoCard videoInfo={videoInfo} />
+          <VideoInfoCard 
+            videoInfo={videoInfo} 
+            onDownloadComplete={handleDownloadComplete}
+          />
           <div className="flex justify-center">
             <Button 
               variant="outline" 

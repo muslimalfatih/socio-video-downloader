@@ -1,7 +1,7 @@
 export interface VideoFormat {
   format_note: string;
   ext: string;
-  url?: string;
+  filesize?: number;
 }
 
 export interface VideoInfo {
@@ -9,16 +9,26 @@ export interface VideoInfo {
   platform: string;
   thumbnail: string;
   duration: number;
+  original_url: string;
   formats: VideoFormat[];
 }
 
-export interface APIError {
-  detail: string;
-  status?: number;
+export interface UsageInfo {
+  downloads_used: number;
+  downloads_remaining: number;
+  reset_in_hours: number;
+  reset_time: string;
 }
 
-export interface FetchState<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
+export interface DownloadResult {
+  download_id: string;
+  title: string;
+  duration: number;
+  file_size: number;
+  download_url: string;
+  expires_at: string;
+  usage: {
+    downloads_used: number;
+    downloads_remaining: number;
+  };
 }

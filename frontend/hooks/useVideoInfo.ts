@@ -1,9 +1,15 @@
 import { useState, useCallback } from "react";
-import type { VideoInfo, FetchState } from "@/types/video";
-import { fetchVideoInfo } from "@/lib/api";
+import type { VideoInfo } from "@/types/video";
+import { apiClient } from "@/lib/api";
+
+interface FetchState {
+  data: VideoInfo | null;
+  loading: boolean;
+  error: string | null;
+}
 
 export function useVideoInfo() {
-  const [state, setState] = useState<FetchState<VideoInfo>>({
+  const [state, setState] = useState<FetchState>({
     data: null,
     loading: false,
     error: null,
@@ -13,7 +19,7 @@ export function useVideoInfo() {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      const data = await fetchVideoInfo(url);
+      const data = await apiClient.fetchVideoInfo(url);
       setState({ data, loading: false, error: null });
       return data;
     } catch (error) {

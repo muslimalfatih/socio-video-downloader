@@ -17,3 +17,4 @@ class PlatformDetector:
       if any(re.search(pattern, domain, re.IGNORECASE) for pattern in patterns):
         return {"platform": platform}
     return {"platform": "unknown"}
+

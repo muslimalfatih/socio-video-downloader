@@ -11,10 +11,16 @@ def get_video_info(url: str) -> dict:
                 "platform": PlatformDetector.detect_platform(url)["platform"],
                 "thumbnail": info.get("thumbnail"),
                 "duration": info.get("duration"),
+                "original_url": url,
                 "formats": [
-                    {"format_note": f["format_note"], "ext": f["ext"], "url": f.get("url")}
-                    for f in info.get("formats", []) if "format_note" in f
-                ]
+                    {
+                        "format_note": f.get("format_note", "Unknown"),
+                        "ext": f.get("ext", "mp4"),
+                        "filesize": f.get("filesize")
+                    }
+                    for f in info.get("formats", [])
+                    if f.get("format_note") and "audio" not in f.get("format_note", "").lower()
+                ][:5]  # Limit to 5 formats for UI
             }
         except Exception as e:
             return {"error": str(e)}

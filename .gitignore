@@ -39,7 +39,7 @@ instance/
 # Docker
 *.pid
 *.log
-docker-compose.*
+docker-compose.override.yml
 *.sock
 
 # General

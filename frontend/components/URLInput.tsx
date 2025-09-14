@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 
 interface URLInputProps {
   onSubmit: (url: string) => void;
@@ -9,12 +9,16 @@ interface URLInputProps {
   placeholder?: string;
 }
 
-export function URLInput({ onSubmit, loading = false, placeholder = "Paste video URL here..." }: URLInputProps) {
+export function URLInput({ 
+  onSubmit, 
+  loading = false, 
+  placeholder = "Paste video URL here..." 
+}: URLInputProps) {
   const [url, setUrl] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (url.trim()) {
+    if (url.trim() && !loading) {
       onSubmit(url.trim());
     }
   };
@@ -51,7 +55,10 @@ export function URLInput({ onSubmit, loading = false, placeholder = "Paste video
             Loading
           </>
         ) : (
-          "Analyze"
+          <>
+            <Search className="mr-2 h-4 w-4" />
+            Analyze
+          </>
         )}
       </Button>
     </form>
