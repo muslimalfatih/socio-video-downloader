@@ -1,5 +1,5 @@
 import yt_dlp
-from .platform_detector import PlatformDetector  # Import your detector
+from .platform_detector import PlatformDetector
 
 def get_video_info(url: str) -> dict:
     ydl_opts = {"quiet": True, "skip_download": True}
@@ -11,7 +11,10 @@ def get_video_info(url: str) -> dict:
                 "platform": PlatformDetector.detect_platform(url)["platform"],
                 "thumbnail": info.get("thumbnail"),
                 "duration": info.get("duration"),
-                "formats": [f["format_note"] for f in info.get("formats", []) if "format_note" in f]
+                "formats": [
+                    {"format_note": f["format_note"], "ext": f["ext"], "url": f.get("url")}
+                    for f in info.get("formats", []) if "format_note" in f
+                ]
             }
         except Exception as e:
             return {"error": str(e)}
