@@ -120,22 +120,18 @@ GET  /docs               \# Interactive API documentation (Swagger UI)
 - **Data Retention**: Download records expire after 30 days
 
 ### **Rate Limiting Strategy**
-```
+```bash
 # Daily Limits (per client identifier)
-
 FREE_TIER = {
-"downloads_per_day": 5,
-"max_file_size": "500MB",
-"quality_limit": "720p",
-"formats": ["MP4", "MP3"]
+  "downloads_per_day": 5,
+  "max_file_size": "500MB",
+  "quality_limit": "720p",
+  "formats": ["MP4", "MP3"]
 }
 
 # Reset mechanism: UTC midnight daily
-
 # Storage: Redis with TTL expiration
-
 # Fallback: Allow requests if Redis unavailable
-
 ```
 
 ### **Content Security**
@@ -145,7 +141,6 @@ FREE_TIER = {
 - **Copyright Compliance**: Terms of service and usage guidelines
 - **Temporary Storage**: 24-hour file expiration for legal compliance
 
----
 
 ## ⚡ Performance & Scalability
 
@@ -174,7 +169,6 @@ FREE_TIER = {
 
 ### **Production Environment**
 ```
-
 🌍 Production Stack
 
 📱 Frontend (Vercel)
@@ -192,7 +186,7 @@ FREE_TIER = {
 💾 Data Layer
 ├── 🐘 Neon PostgreSQL (Primary database)
 ├── 🔴 Upstash Redis (Rate limiting cache)
-└── ☁️ Cloudinary (Media storage \& CDN)
+└── ☁️ Cloudinary (Media storage & CDN)
 
 ```
 
@@ -209,7 +203,6 @@ FREE_TIER = {
 
 ### **Freemium SaaS Strategy**
 ```
-
 💰 Revenue Tiers
 
 🆓 FREE TIER
@@ -218,7 +211,7 @@ FREE_TIER = {
 ├── Standard formats
 └── 24h download expiry
 
-💎 PRO TIER (\$9.99/month)
+💎 PRO TIER ($9.99/month)
 ├── Unlimited downloads
 ├── 4K quality support
 ├── All formats \& codecs
@@ -227,7 +220,7 @@ FREE_TIER = {
 ├── Download history sync
 └── Priority processing
 
-🏢 BUSINESS TIER (\$19.99/month)
+🏢 BUSINESS TIER ($19.99/month)
 ├── Everything in Pro
 ├── API access (1000 calls/month)
 ├── White-label solutions
@@ -273,44 +266,105 @@ FREE_TIER = {
 - [ ] Advanced analytics
 - [ ] Custom integrations
 
----
+## 🚀 Quick Start
 
-## 📝 License & Legal
-
-### **Open Source Components**
-- **MIT License** for application code
-- **Individual Licenses** for dependencies (see package.json/requirements.txt)
-- **Respect Platform ToS** - Users responsible for compliance
-- **Educational Use** - Intended for learning and personal projects
-
-### **Disclaimer**
-This tool is provided for educational and personal use only. Users must respect copyright laws, platform terms of service, and intellectual property rights. The developers are not responsible for misuse of this software.
+### **Prerequisites**
+- Node.js 18+ and npm
+- Python 3.11+ and pip
+- Git
 
 ### **Development Setup**
-```
-# Clone repository
 
+#### **1. Clone Repository**
+```bash
 git clone https://github.com/muslimalfatih/socio-video-downloader.git
 cd socio-video-downloader
+```
 
-# Backend setup
-cd backend \&\& python -m venv venv \&\& source venv/bin/activate
-pip install -r requirements.txt \&\& uvicorn main:app --reload
+#### **2. Backend Setup**
+```bash
+# Navigate to backend directory
+cd backend
 
-# Frontend setup
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  \# On Windows: venv\Scripts\activate
 
-cd ../frontend \&\& npm install \&\& npm run dev
+# Install dependencies
+pip install -r requirements.txt
 
-# Docker setup (alternative)
+# Configure environment variables
+cp .env.example .env
+
+# Edit .env with your database and API credentials
+# Start the backend server
+
+uvicorn main:app --reload
+```
+The backend will be available at: http://localhost:8000
+
+#### **3. Frontend Setup**
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Configure environment variables
+cp .env.local.example .env.local
+
+# Edit .env.local with your API URL
+
+# Start the development server
+npm run dev
+
+```
+The frontend will be available at: http://localhost:3000
+
+#### **4. Docker Setup (Alternative)**
+```bash
+
+# Start both frontend and backend with Docker
 docker-compose up --build
 
+# Access the application
+# Frontend: http://localhost:3000
+# Backend: http://localhost:8000
+```
+
+## **Environment Configuration**
+
+#### **Backend Environment Variables (.env)**
+
+```bash
+# Database (Neon PostgreSQL)
+DATABASE_URL=postgresql://username:password@ep-xxx.us-east-1.aws.neon.tech/dbname?sslmode=require
+
+# Redis (Upstash)
+UPSTASH_REDIS_REST_URL=https://xxx.upstash.io
+UPSTASH_REDIS_REST_TOKEN=xxx_token_here
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# App Config
+ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
+MAX_DOWNLOADS_PER_DAY=5
+
+```
+#### **Frontend Environment Variables (.env.local)**
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
 
 ---
 
 <div align="center">
 
-**Built with ❤️ by [Your Name](https://github.com/muslimalfatih)**
+**Built with ❤️ by [Muslim Al Fatih](https://github.com/muslimalfatih)**
 
 [⭐ Star this repo](https://github.com/muslimalfatih/socio-video-downloader) • [🐛 Report Bug](https://github.com/muslimalfatih/socio-video-downloader/issues) • [💡 Request Feature](https://github.com/muslimalfatih/socio-video-downloader/issues)
 
